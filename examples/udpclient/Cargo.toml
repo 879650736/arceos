@@ -1,0 +1,13 @@
+[package]
+name = "arceos-udpclient"
+version = "0.1.0"
+edition.workspace = true
+authors = ["Siyuan Sun <a879650736@gmail.com>"]
+
+
+[dependencies]
+axstd = { workspace = true, features = ["net"], optional = true }
+
+[features]
+default = []
+dns = ["axstd?/dns"]
