@@ -7,7 +7,7 @@
 
 // 服务器监听的 IP 地址和端口
 const char *LOCAL_IP = "0.0.0.0"; // 监听所有可用网络接口
-const unsigned short LOCAL_PORT = 5555;
+const unsigned short LOCAL_PORT = 12345;
 
 // UDP 服务器的响应内容
 const char UDP_RESPONSE_CONTENT[] = "Hello from C UDP Server!";

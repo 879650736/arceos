@@ -17,7 +17,7 @@ use std::sync::Arc; // 引入 Arc 用于多线程共享所有权
 use std::thread;    // 引入 thread 模块用于创建新线程
 
 const LOCAL_IP: &str = "0.0.0.0";
-const LOCAL_PORT: u16 = 5555;
+const LOCAL_PORT: u16 = 12345;
 
 const UDP_RESPONSE_CONTENT: &str = "Hello from ArceOS UDP Server!";
 

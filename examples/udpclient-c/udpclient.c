@@ -8,7 +8,8 @@
 #include <errno.h> // 重新引入 errno.h 以便检查错误码
 
 // 目标服务器的地址和端口
-const char *DEST_HOST = "localhost";
+//const char *DEST_HOST = "localhost";
+const char *DEST_HOST = "127.0.0.1"; 
 const unsigned short DEST_PORT = 12345;
 
 // UDP 客户端发送的消息
