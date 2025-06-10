@@ -344,6 +344,45 @@ impl TcpSocket {
             }),
         }
     }
+    #[inline]
+    pub fn nagle_enabled(&self) -> bool {
+        let handle = unsafe { self.handle.get().read().unwrap() }; 
+        SOCKET_SET.with_socket::<tcp::Socket, _, _>(handle, |socket| {
+            socket.nagle_enabled()
+        })
+    }
+
+    #[inline]
+    pub fn set_nagle_enabled(&self, enabled: bool) {
+        let handle = unsafe { self.handle.get().read().unwrap() };
+        SOCKET_SET.with_socket_mut::<tcp::Socket, _, _>(handle, |socket| {
+            socket.set_nagle_enabled(enabled);
+        });
+    }
+
+    #[inline]
+    pub fn recv_capacity(&self) -> usize {
+        info!("TCP socket: recv_capacity called");
+        let handle = unsafe { self.handle.get().read() }
+                .unwrap_or_else(|| SOCKET_SET.add(SocketSetWrapper::new_tcp_socket()));
+        SOCKET_SET.with_socket::<tcp::Socket, _, _>(handle, |socket| {
+            info!("TCP socket: recv_capacity={}", socket.recv_capacity());
+            socket.recv_capacity()
+        })
+        
+    }
+
+    /// 返回发送缓冲区的最大容量（字节数）。
+    #[inline]
+    pub fn send_capacity(&self) -> usize {
+        info!("TCP socket: send_capacity called");
+        let handle = unsafe { self.handle.get().read() }
+                .unwrap_or_else(|| SOCKET_SET.add(SocketSetWrapper::new_tcp_socket()));
+        SOCKET_SET.with_socket::<tcp::Socket, _, _>(handle, |socket| {
+            info!("TCP socket: send_capacity={}", socket.send_capacity());
+            socket.send_capacity()
+        })
+    }
 }
 
 /// Private methods

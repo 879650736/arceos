@@ -131,7 +131,7 @@ dependencies = [
 name = "arceos-shell"
 version = "0.1.0"
 dependencies = [
- "axfs_ramfs",
+ "axfs_ramfs 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "axfs_vfs 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "axstd",
  "crate_interface",
@@ -401,8 +401,8 @@ dependencies = [
  "axdriver_block",
  "axerrno",
  "axfs_devfs",
- "axfs_ramfs",
- "axfs_vfs 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "axfs_ramfs 0.1.1 (git+https://github.com/879650736/axfs_crates.git)",
+ "axfs_vfs 0.1.1 (git+https://github.com/879650736/axfs_crates.git)",
  "axio",
  "axns",
  "axsync",
@@ -434,6 +434,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "db46c6dae25a123579d5fdcdcc502d0dc2a8af86646106004c8a9181433271b1"
 dependencies = [
  "axfs_vfs 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "log",
+ "spin",
+]
+
+[[package]]
+name = "axfs_ramfs"
+version = "0.1.1"
+source = "git+https://github.com/879650736/axfs_crates.git#bec633989f124c4a5dda4af97a1615846582ad78"
+dependencies = [
+ "axfs_vfs 0.1.1 (git+https://github.com/879650736/axfs_crates.git)",
  "log",
  "spin",
 ]

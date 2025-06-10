@@ -195,6 +195,21 @@ impl UdpSocket {
             })
         })
     }
+    
+    #[inline]
+    pub fn recv_capacity(&self) -> usize {
+        SOCKET_SET.with_socket_mut::<udp::Socket, _, _>(self.handle, |socket| {
+            socket.payload_recv_capacity()
+        })
+    }
+
+    /// 返回发送缓冲区的最大容量（字节数）。
+    #[inline]
+    pub fn send_capacity(&self) -> usize {
+        SOCKET_SET.with_socket_mut::<udp::Socket, _, _>(self.handle, |socket| {
+            socket.payload_send_capacity()
+        })
+    }
 }
 
 /// Private methods
