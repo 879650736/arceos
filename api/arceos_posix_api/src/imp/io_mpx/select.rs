@@ -132,11 +132,12 @@ pub unsafe fn sys_select(
             zero_fd_set(writefds, nfds);
             zero_fd_set(exceptfds, nfds);
         }
-
+        debug!("    nfds: {}, deadline: {:?}", nfds, deadline);
         loop {
             #[cfg(feature = "net")]
             axnet::poll_interfaces();
             let res = fd_sets.poll_all(readfds, writefds, exceptfds)?;
+            debug!("    res: {}", res);
             if res > 0 {
                 return Ok(res);
             }

@@ -24,6 +24,7 @@ const STATE_BUSY: u8 = 1;
 const STATE_CONNECTING: u8 = 2;
 const STATE_CONNECTED: u8 = 3;
 const STATE_LISTENING: u8 = 4;
+const DEFAULT_MSS: usize = 536;
 
 /// A TCP socket that provides POSIX-like APIs.
 ///
@@ -357,6 +358,20 @@ impl TcpSocket {
         let handle = unsafe { self.handle.get().read().unwrap() };
         SOCKET_SET.with_socket_mut::<tcp::Socket, _, _>(handle, |socket| {
             socket.set_nagle_enabled(enabled);
+        });
+    }
+
+    #[inline]
+    pub fn get_remote_mss(&self) -> usize {
+        DEFAULT_MSS
+    }
+
+    #[inline]
+    pub fn set_remote_mss(&self) {
+        let handle = unsafe { self.handle.get().read().unwrap() };
+        SOCKET_SET.with_socket_mut::<tcp::Socket, _, _>(handle, |socket| {
+            //smoltcp does not expose the interface
+            unimplemented!("set_remote_mss is not implemented yet");
         });
     }
 
