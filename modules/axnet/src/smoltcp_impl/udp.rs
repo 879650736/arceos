@@ -195,7 +195,7 @@ impl UdpSocket {
             })
         })
     }
-    
+
     #[inline]
     pub fn recv_capacity(&self) -> usize {
         SOCKET_SET.with_socket_mut::<udp::Socket, _, _>(self.handle, |socket| {

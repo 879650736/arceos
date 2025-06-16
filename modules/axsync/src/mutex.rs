@@ -57,7 +57,6 @@ unsafe impl lock_api::RawMutex for RawMutex {
         }
     }
 
-
     #[inline(always)]
     fn try_lock(&self) -> bool {
         let current_id = current().id().as_u64();
@@ -67,7 +66,6 @@ unsafe impl lock_api::RawMutex for RawMutex {
             .compare_exchange(0, current_id, Ordering::Acquire, Ordering::Relaxed)
             .is_ok()
     }
-
 
     #[inline(always)]
     unsafe fn unlock(&self) {
