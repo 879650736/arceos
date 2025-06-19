@@ -93,8 +93,33 @@ impl<IO: IoTrait> VfsNodeOps for FileWrapper<'static, IO> {
 
     fn truncate(&self, size: u64) -> VfsResult {
         let mut file = self.0.lock();
-        file.seek(SeekFrom::Start(size)).map_err(as_vfs_err)?; // TODO: more efficient
-        file.truncate().map_err(as_vfs_err)
+        let current_size = file.seek(SeekFrom::End(0)).map_err(as_vfs_err)?;
+        
+        if size <= current_size {
+            // 如果目标大小小于当前大小，执行标准截断操作
+            file.seek(SeekFrom::Start(size)).map_err(as_vfs_err)?;
+            file.truncate().map_err(as_vfs_err)
+        } else {
+            // 如果目标大小大于当前大小，需要扩展文件
+            // 移动到文件末尾
+            file.seek(SeekFrom::End(0)).map_err(as_vfs_err)?;
+            
+            // 计算需要填充的字节数
+            let zeros_needed = size - current_size;
+            
+            // 用零填充扩展部分
+            let mut zeros = [0u8; 4096]; // 使用缓冲区提高效率
+            let mut remaining = zeros_needed;
+            
+            while remaining > 0 {
+                let to_write = core::cmp::min(remaining, zeros.len() as u64);
+                let write_buf = &zeros[..to_write as usize];
+                file.write(write_buf).map_err(as_vfs_err)?;
+                remaining -= to_write;
+            }
+            
+            Ok(())
+        }
     }
 }
 
